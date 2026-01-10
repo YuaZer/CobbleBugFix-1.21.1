@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "cobblebugfix",
+  "version": "${version}",
+  "name": "CobbleBugFix",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/cobblebugfix/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "io.github.yuazer.cobblebugfix.Cobblebugfix"
+    ]
+  },
+  "mixins": [
+    "cobblebugfix.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-language-kotlin": ">=${kotlin_loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
