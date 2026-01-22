@@ -10,23 +10,28 @@ import kotlin.math.min
 import kotlin.random.Random
 
 class LevelRangeProperty(private val range: IntRange) : CustomPokemonProperty {
-    override fun asString() = "levelRange=${range.first}-${range.last}"
+    override fun asString() = "levelrange=${range.first}-${range.last}"
+
+    private fun clampedRange(): IntRange {
+        val a = range.first.coerceIn(1, Cobblemon.config.maxPokemonLevel)
+        val b = range.last.coerceIn(1, Cobblemon.config.maxPokemonLevel)
+        val minLevel = min(a, b)
+        val maxLevel = max(a, b)
+        return minLevel..maxLevel
+    }
 
     override fun apply(pokemon: Pokemon) {
-        val clamped = range.first.coerceIn(1, Cobblemon.config.maxPokemonLevel)..
-                range.last.coerceIn(1, Cobblemon.config.maxPokemonLevel)
-        val minLevel = min(clamped.first, clamped.last)
-        val maxLevel = max(clamped.first, clamped.last)
-        pokemon.level = if (minLevel == maxLevel) minLevel else Random.nextInt(minLevel, maxLevel + 1)
+        val clamped = clampedRange()
+        pokemon.level = if (clamped.first == clamped.last) clamped.first else Random.nextInt(clamped.first, clamped.last + 1)
     }
 
     override fun apply(pokemonEntity: PokemonEntity) = apply(pokemonEntity.pokemon)
 
-    override fun matches(pokemon: Pokemon) = pokemon.level in range
+    override fun matches(pokemon: Pokemon) = pokemon.level in clampedRange()
 }
 
 object LevelRangePropertyType : CustomPokemonPropertyType<LevelRangeProperty> {
-    override val keys = setOf("levelRange")
+    override val keys = setOf("levelrange")
     override val needsKey = true
 
     override fun fromString(value: String?): LevelRangeProperty? {
@@ -47,5 +52,5 @@ object LevelRangePropertyType : CustomPokemonPropertyType<LevelRangeProperty> {
         return LevelRangeProperty(a..b)
     }
 
-    override fun examples() = listOf("levelRange=3-10", "levelRange=10-4", "levelRange=7")
+    override fun examples() = listOf("3-10", "10-4", "7")
 }

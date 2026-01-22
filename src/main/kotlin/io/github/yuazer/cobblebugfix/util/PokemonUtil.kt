@@ -1,11 +1,15 @@
 package io.github.yuazer.cobblebugfix.util
 
+import com.cobblemon.mod.common.api.pokemon.evolution.ContextEvolution
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
 import com.cobblemon.mod.common.util.server
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtAccounter
 import net.minecraft.nbt.NbtIo
 import net.minecraft.nbt.TagParser
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.item.ItemStack
 import java.io.*
 import java.util.Base64
 import java.util.zip.GZIPInputStream
@@ -73,5 +77,19 @@ object PokemonUtil {
     fun snbtToNbt(snbt: String): CompoundTag {
         val tag = TagParser.parseTag(snbt)
         return tag ?: CompoundTag()
+    }
+    //强制TradeEvolution
+    fun forceTradeEvolution(pokemon: Pokemon, evolutionId: String? = null): Boolean {
+        val tradeEvo = pokemon.evolutions
+            .filterIsInstance<TradeEvolution>()
+            .firstOrNull { evolutionId == null || it.id.equals(evolutionId, true) }
+            ?: return false
+
+        if (tradeEvo.consumeHeldItem) {
+            pokemon.swapHeldItem(ItemStack.EMPTY)
+        }
+
+        tradeEvo.forceEvolve(pokemon)
+        return true
     }
 }
