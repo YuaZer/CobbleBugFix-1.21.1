@@ -6,7 +6,8 @@
   "mixins": [
     "InteractPokemonHandlerMixin",
     "PokemonEntityOfferHeldItemMixin",
-    "ProjectileMixin"
+    "ProjectileMixin",
+    "FixNullProjectileStackOnSaveMixin"
   ],
   "injectors": {
     "defaultRequire": 1

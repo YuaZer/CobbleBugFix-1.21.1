@@ -28,30 +28,15 @@ public abstract class ProjectileMixin {
         String world = fishingHook.level().dimension().location().toString();
         String entityType = entity.getType().toString();
         if (!CobbleBugFixConfig.isConfigLoaded()) {
-            LOGGER.info(
-                    "Fishing hook tried to hit {} in {}, but config is not loaded yet (config worlds {}).",
-                    entityType,
-                    world,
-                    CobbleBugFixConfig.getConfiguredWorlds()
-            );
+
             return;
         }
         boolean bypass = CobbleBugFixConfig.shouldBypassEntityHooks(fishingHook.level());
         if (bypass) {
-            LOGGER.info(
-                    "Fishing hook in {} skipping entity {} because bypass config enabled for worlds {}.",
-                    world,
-                    entityType,
-                    CobbleBugFixConfig.getConfiguredWorlds()
-            );
+
             cir.setReturnValue(false);
         } else {
-            LOGGER.info(
-                    "Fishing hook in {} hit entity {} because bypass config disabled or world not matched (configured worlds {}).",
-                    world,
-                    entityType,
-                    CobbleBugFixConfig.getConfiguredWorlds()
-            );
+
         }
     }
 }
