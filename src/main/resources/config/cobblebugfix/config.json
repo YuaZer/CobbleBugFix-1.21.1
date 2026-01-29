@@ -1,0 +1,8 @@
+{
+  "fishingRodHookOverride": {
+    "enabled": true,
+    "worlds": [
+      "*"
+    ]
+  }
+}
