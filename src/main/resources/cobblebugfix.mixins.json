@@ -4,10 +4,14 @@
   "package": "io.github.yuazer.cobblebugfix.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ActiveBattlePokemonMixin",
     "InteractPokemonHandlerMixin",
     "PokemonEntityOfferHeldItemMixin",
     "ProjectileMixin",
-    "FixNullProjectileStackOnSaveMixin"
+    "FixNullProjectileStackEverywhereMixin",
+    "FossilMultiblockStructureMixin",
+    "PokeSnackBlockEntityMixin",
+    "ItemStackSaveMixin"
   ],
   "injectors": {
     "defaultRequire": 1

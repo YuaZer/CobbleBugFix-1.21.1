@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory
 
 object CobbleBugFixConfig {
     private const val FISHING_SECTION = "fishingRodHookOverride"
+    private const val BATTLE_CLIP_SECTION = "battleSendOutClipOverride"
     private val LOGGER = LoggerFactory.getLogger("CobbleBugFixConfig")
 
     @field:Config("cobblebugfix/config.json")
@@ -37,15 +38,24 @@ object CobbleBugFixConfig {
         if (!::config.isInitialized) emptyList() else config.getStringList("$FISHING_SECTION.worlds")
 
     @JvmStatic
+    fun shouldSkipSendOutClip(): Boolean {
+        if (!::config.isInitialized) {
+            return false
+        }
+        return config.getBoolean("$BATTLE_CLIP_SECTION.enabled", false)
+    }
+
+    @JvmStatic
     fun logConfigState() {
         if (!::config.isInitialized) {
             LOGGER.info("CobbleBugFix config is not initialized yet.")
             return
         }
         LOGGER.info(
-            "CobbleBugFix config loaded (enabled={}, worlds={})",
+            "CobbleBugFix config loaded (fishingEnabled={}, worlds={}, battleClipOverride={})",
             config.getBoolean("$FISHING_SECTION.enabled", false),
-            getConfiguredWorlds()
+            getConfiguredWorlds(),
+            config.getBoolean("$BATTLE_CLIP_SECTION.enabled", false)
         )
     }
 

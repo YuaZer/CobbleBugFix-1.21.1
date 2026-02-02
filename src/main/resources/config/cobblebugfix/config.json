@@ -4,5 +4,8 @@
     "worlds": [
       "*"
     ]
+  },
+  "battleSendOutClipOverride": {
+    "enabled": false
   }
 }
